@@ -1041,6 +1041,22 @@ html:not(.js) .dial-needle { transform: translateX(53%); } /* 98.6 MHz */
 
 .has-rings > .container { position: relative; }
 
+/* Antenna pivots around its mount (fill-box origin: mount is 15 units in, 6 up from the bottom) */
+.antenna { transform-box: fill-box; transform-origin: 15px calc(100% - 6px); }
+
+@keyframes wave-sm {
+  0%   { opacity: 0.7; transform: scale(1, 1); }
+  100% { opacity: 0; transform: scale(1.1, 1.5); }
+}
+
+/* Phones: leave room at the sides so cables, antenna and rings are not cut off */
+@media (max-width: 520px) {
+  .tilt { width: 84%; }
+  .hero .hero-grid { gap: 96px; }
+  .antenna { transform: rotate(-12deg); }
+  .stage[data-state="playing"] .waves i { animation-name: wave-sm; }
+}
+
 @media (max-width: 520px) {
   .screw { width: 7px; height: 7px; }
   .screw.tl, .screw.tr { top: 5px; }
