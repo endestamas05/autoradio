@@ -1000,14 +1000,14 @@ p { margin: 0; text-wrap: pretty; }
   overflow-wrap: anywhere;
 }
 
-.contact-value.mono { font-family: var(--mono); font-size: 17px; letter-spacing: 0; }
+.contact-value.mono { font-family: var(--mono); font-size: 17px; letter-spacing: 0; white-space: nowrap; }
 
 .contact-actions { display: flex; flex-wrap: wrap; gap: 8px; flex-shrink: 0; }
 
 /* Row whose action buttons sit under the text at every width */
 .contact-row.stacked { flex-wrap: wrap; row-gap: 12px; }
 .contact-row.stacked .contact-meta { flex-basis: calc(100% - 58px); }
-.contact-row.stacked .contact-actions { margin-left: 58px; flex-shrink: 1; }
+.contact-row.stacked .contact-actions { flex: 1 1 calc(100% - 58px); min-width: 0; margin-left: 58px; }
 
 .icon-btn {
   display: grid;
@@ -1415,9 +1415,10 @@ p { margin: 0; text-wrap: pretty; }
   .preset { height: 24px; font-size: 11px; }
   .contact-row:has(.btn-sm) { flex-wrap: wrap; row-gap: 12px; }
   .contact-row:has(.btn-sm) .contact-meta { flex-basis: calc(100% - 56px); }
-  .contact-row:has(.btn-sm) .contact-actions { margin-left: 56px; }
+  .contact-row:has(.btn-sm) .contact-actions { flex: 1 1 calc(100% - 56px); min-width: 0; margin-left: 56px; }
+  .contact-row.stacked .contact-actions { display: grid; grid-template-columns: 1fr 1fr; margin-left: 0; flex-basis: 100%; }
   .contact-value { font-size: 16.5px; }
-  .contact-value.mono { font-size: 15.5px; }
+  .contact-value.mono { font-size: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
