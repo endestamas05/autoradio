@@ -93,12 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Chat links: each platform gets the URL that opens the conversation on the
      first click. Phones: universal links / app schemes open the app directly,
-     in the same tab (no empty tab left behind). Desktop: skip the m.me and
-     wa.me redirect hops, which can land on a consent/login page instead. */
+     in the same tab (no empty tab left behind). Desktop: skip the wa.me
+     redirect hop, which can land on a consent/login page instead. */
   const isPhone = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
     || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
   const chatUrls = {
-    messenger: isPhone ? 'https://m.me/miklos.endes' : 'https://www.messenger.com/t/miklos.endes',
     whatsapp: isPhone ? `https://wa.me/${PHONE}` : `https://web.whatsapp.com/send?phone=${PHONE}`,
     viber: `viber://chat?number=%2B${PHONE}`,
   };
