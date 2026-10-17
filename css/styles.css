@@ -162,6 +162,24 @@ p { margin: 0; text-wrap: pretty; }
   .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.18); }
 }
 
+/* Channel-colored buttons: same hues as the channel dots */
+.btn[data-chat], .btn-ghost[href^="tel:"] {
+  background: rgba(var(--ch), 0.14);
+  border-color: rgba(var(--ch), 0.42);
+  color: var(--ch-text);
+}
+.btn[data-chat="viber"]     { --ch: 127, 102, 255; --ch-text: #b3a6ff; }
+.btn[data-chat="whatsapp"]  { --ch: 37, 211, 102;  --ch-text: #5ee39a; }
+.btn[data-chat="messenger"] { --ch: 59, 140, 255;  --ch-text: #86b8ff; }
+.btn-ghost[href^="tel:"]    { --ch: 255, 176, 46;  --ch-text: #ffc566; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn[data-chat]:hover, .btn-ghost[href^="tel:"]:hover {
+    background: rgba(var(--ch), 0.24);
+    border-color: rgba(var(--ch), 0.6);
+  }
+}
+
 /* ---------- Header ---------- */
 
 .header {
