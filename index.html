@@ -141,10 +141,25 @@
                 <rect class="plug" x="-4" y="-9" width="30" height="18" rx="4"/>
                 <rect class="plug-tip" x="24" y="-4" width="14" height="8" rx="2"/>
               </g>
+            
+              <g class="antenna">
+                <defs>
+                  <linearGradient id="chrome" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0" stop-color="#5d616a"/><stop offset=".45" stop-color="#e6e8ec"/><stop offset="1" stop-color="#6d717a"/>
+                  </linearGradient>
+                </defs>
+                <rect class="ant-mount" x="456" y="-6" width="30" height="12" rx="4"/>
+                <line class="ant-seg" x1="471" y1="0" x2="490" y2="-52" stroke-width="7"/>
+                <line class="ant-seg" x1="490" y1="-52" x2="509" y2="-100" stroke-width="5"/>
+                <line class="ant-seg" x1="509" y1="-100" x2="528" y2="-146" stroke-width="3.2"/>
+                <circle class="ant-tip" cx="528" cy="-146" r="5"/>
+                <path class="sig" style="--i:0" d="M 537.9 -155.9 A 14 14 0 0 1 537.9 -136.1"/><path class="sig" style="--i:0" d="M 518.1 -155.9 A 14 14 0 0 0 518.1 -136.1"/><path class="sig" style="--i:1" d="M 545.7 -163.7 A 25 25 0 0 1 545.7 -128.3"/><path class="sig" style="--i:1" d="M 510.3 -163.7 A 25 25 0 0 0 510.3 -128.3"/><path class="sig" style="--i:2" d="M 553.5 -171.5 A 36 36 0 0 1 553.5 -120.5"/><path class="sig" style="--i:2" d="M 502.5 -171.5 A 36 36 0 0 0 502.5 -120.5"/>
+              </g>
             </svg>
             <div class="waves"><i></i><i></i><i></i></div>
             <div class="radio" id="radio">
               <div class="sheen"><i id="sheen"></i></div>
+              <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
               <div class="knob left"><span class="knob-cap" id="knob-left"></span></div>
               <div class="radio-center">
                 <div class="lcd">
@@ -300,6 +315,15 @@
           <div class="kicker">Menete</div>
           <h2>Négy egyszerű lépés</h2>
         </div>
+        <div class="dial" aria-hidden="true" data-reveal>
+          <span class="dial-band">FM</span>
+          <div class="dial-inner">
+            <div class="dial-ticks"></div>
+            <div class="dial-labels"><span style="left:0.0%">88</span><span style="left:20.0%">92</span><span style="left:40.0%">96</span><span style="left:60.0%">100</span><span style="left:80.0%">104</span><span style="left:100.0%">108</span></div>
+            <div class="dial-needle"></div>
+          </div>
+          <span class="dial-unit">MHz</span>
+        </div>
         <ol class="steps">
           <li class="step" data-reveal style="--delay:0ms">
             <h3>Hívjon fel</h3>
@@ -365,7 +389,7 @@
     </section>
 
     <!-- Contact -->
-    <section class="section alt" id="kapcsolat">
+    <section class="section alt has-rings" id="kapcsolat">
       <div class="cable-divider" aria-hidden="true">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="xMidYMid slice" focusable="false">
           <path class="wire sheath" d="M -20 30 C 220 32, 430 66, 688 44"/><path class="wire yellow" d="M -20 30 C 220 32, 430 66, 688 44"/><path class="wire-hl" d="M -20 30 C 220 32, 430 66, 688 44"/>
