@@ -146,6 +146,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* FM dial: the needle seeks a couple of random stations, then settles on
+     98.6 for a while, and repeats. Pauses off-screen / in a hidden tab. */
+  const dial = $('.dial');
+  if (dial && !reduceMotion) {
+    const needle = dial.querySelector('.dial-needle');
+    const freq = $('#dial-freq');
+    const pos = (mhz) => `translateX(${((mhz - 88) / 20) * 100}%)`;
+    let dialInView = false;
+    new IntersectionObserver(([e]) => { dialInView = e.isIntersecting; }, { rootMargin: '0px 0px -15% 0px' }).observe(dial);
+    const nap = (ms) => new Promise((r) => setTimeout(r, ms));
+    const hold = async (ms) => {
+      await nap(ms);
+      while (document.hidden || !dialInView) await nap(250);
+    };
+    const tune = async (mhz, dwell) => {
+      dial.dataset.seeking = 'true';
+      freq.textContent = 'SEEK';
+      needle.style.transform = pos(mhz);
+      await hold(1100);
+      dial.dataset.seeking = 'false';
+      freq.textContent = mhz.toFixed(1);
+      await hold(dwell);
+    };
+    (async () => {
+      needle.style.transition = 'transform 1.1s var(--ease-in-out)';
+      freq.textContent = '88.0';
+      needle.style.transform = pos(88);
+      await hold(400);
+      while (true) {
+        for (let k = 0; k < 2; k++) {
+          const mhz = Math.round((88.5 + Math.random() * 19) * 10) / 10;
+          await tune(Math.abs(mhz - 98.6) < 2 ? mhz + 4 : mhz, 900);
+        }
+        await tune(98.6, 3200);
+      }
+    })();
+  }
+
   /* Radio faceplate — a short explanatory loop:
      locked (CODE blinks) → decoding (digits scramble, lock in one by one on presets 1–4,
      progress fills, tuning knob turns) → confirm on preset 6 → unlock flash →

@@ -978,6 +978,19 @@ p { margin: 0; text-wrap: pretty; }
   background: rgba(255, 176, 46, 0.55);
 }
 
+.dial-unit { white-space: nowrap; }
+
+.dial-freq {
+  display: inline-block;
+  min-width: 4ch;
+  text-align: right;
+  color: var(--amber);
+  text-shadow: 0 0 8px var(--amber-glow);
+  transition: opacity 150ms ease;
+}
+
+.dial[data-seeking="true"] .dial-freq { opacity: 0.45; }
+
 .dial-labels span {
   position: absolute;
   top: 0;
