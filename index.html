@@ -126,33 +126,45 @@
           </ul>
         </div>
 
-        <div class="stage" aria-hidden="true">
-          <div class="radio" id="radio">
-            <div class="knob left"></div>
-            <div class="radio-center">
-              <div class="lcd">
-                <div class="lcd-side">
-                  <span data-lcd-flag="code" data-on="true">CODE</span>
-                  <span data-lcd-flag="safe">SAFE</span>
+        <div class="stage" aria-hidden="true" data-state="locked">
+          <div class="stage-glow"></div>
+          <div class="tilt" id="tilt">
+            <div class="waves"><i></i><i></i><i></i></div>
+            <div class="radio" id="radio">
+              <div class="sheen"><i id="sheen"></i></div>
+              <div class="knob left"><span class="knob-cap" id="knob-left"></span></div>
+              <div class="radio-center">
+                <div class="lcd">
+                  <div class="lcd-flash" id="lcd-flash"></div>
+                  <div class="lcd-row">
+                    <div class="lcd-side">
+                      <span data-lcd-flag="code" data-on="true">CODE</span>
+                      <span data-lcd-flag="safe" data-on="true">SAFE</span>
+                    </div>
+                    <span class="lcd-text" id="lcd">CODE</span>
+                    <div class="lcd-side right">
+                      <span data-lcd-flag="fm">FM</span>
+                      <span data-lcd-flag="st">ST</span>
+                    </div>
+                  </div>
+                  <div class="lcd-meter">
+                    <div class="lcd-progress"><i id="progress"></i></div>
+                    <div class="eq"><i style="--h:0.62;--d:520ms"></i><i style="--h:0.9;--d:430ms"></i><i style="--h:0.45;--d:610ms"></i><i style="--h:1;--d:380ms"></i><i style="--h:0.7;--d:470ms"></i><i style="--h:0.85;--d:560ms"></i><i style="--h:0.5;--d:400ms"></i><i style="--h:0.95;--d:500ms"></i><i style="--h:0.6;--d:450ms"></i><i style="--h:0.8;--d:590ms"></i><i style="--h:0.4;--d:420ms"></i><i style="--h:0.75;--d:540ms"></i><i style="--h:0.55;--d:480ms"></i><i style="--h:0.9;--d:410ms"></i></div>
+                  </div>
                 </div>
-                <span class="lcd-text" id="lcd">CODE</span>
-                <div class="lcd-side" style="text-align:right">
-                  <span data-lcd-flag="fm">FM</span>
-                  <span data-lcd-flag="st">ST</span>
+                <div class="presets">
+                  <span class="preset">1</span>
+                  <span class="preset">2</span>
+                  <span class="preset">3</span>
+                  <span class="preset">4</span>
+                  <span class="preset">5</span>
+                  <span class="preset">6</span>
                 </div>
               </div>
-              <div class="presets">
-                <span class="preset">1</span>
-                <span class="preset">2</span>
-                <span class="preset">3</span>
-                <span class="preset">4</span>
-                <span class="preset">5</span>
-                <span class="preset">6</span>
-              </div>
+              <div class="knob right"><span class="knob-cap" id="knob-right"></span></div>
             </div>
-            <div class="knob right"></div>
           </div>
-          <div class="stage-caption"><span class="led" id="led"></span><span id="caption">Kódra vár…</span></div>
+          <div class="stage-caption"><span class="led"></span><span id="caption">Zárolva – kódra vár</span></div>
         </div>
       </div>
     </section>

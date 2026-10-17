@@ -146,19 +146,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* Radio faceplate: CODE → digits typed via presets 1–4 → OK → FM.
+  /* Radio faceplate — a short explanatory loop:
+     locked (CODE blinks) → decoding (digits scramble, lock in one by one on presets 1–4,
+     progress fills, tuning knob turns) → confirm on preset 6 → unlock flash →
+     playing (FM 98.6, equalizer, sound waves, glow).
      Pauses while off-screen or while the tab is hidden. */
+  const stage = $('.stage');
   const radio = $('#radio');
-  if (!radio) return;
+  if (!stage || !radio) return;
 
   const lcd = $('#lcd');
-  const led = $('#led');
   const caption = $('#caption');
+  const progress = $('#progress');
+  const flash = $('#lcd-flash');
+  const knobLeft = $('#knob-left');
+  const knobRight = $('#knob-right');
   const presets = radio.querySelectorAll('.preset');
   const flags = Object.fromEntries([...radio.querySelectorAll('[data-lcd-flag]')].map((el) => [el.dataset.lcdFlag, el]));
 
   let inView = true;
-  new IntersectionObserver(([e]) => { inView = e.isIntersecting; }).observe(radio);
+  new IntersectionObserver(([e]) => {
+    inView = e.isIntersecting;
+    stage.dataset.paused = String(!inView);
+  }).observe(stage);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const wait = async (ms) => {
@@ -177,43 +187,87 @@ document.addEventListener('DOMContentLoaded', () => {
     lcd.dataset.swapping = 'false';
   };
 
-  const press = async (i, hold = 90) => {
+  const press = async (i, hold = 110) => {
     presets[i].dataset.pressed = 'true';
     await sleep(hold);
     presets[i].dataset.pressed = 'false';
   };
 
+  const turn = (knob, deg) => { knob.style.transform = `rotate(${deg}deg)`; };
+  const randomDigit = () => String(Math.floor(Math.random() * 10));
+
+  /* Tilt toward the pointer, eased every frame (spring-like), desktop only */
+  const tilt = $('#tilt');
+  const sheen = $('#sheen');
+  if (!reduceMotion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const area = $('.hero') || stage;
+    let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+    const frame = () => {
+      x += (tx - x) * 0.08;
+      y += (ty - y) * 0.08;
+      tilt.style.transform = `perspective(1000px) rotateX(${(-y * 9).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg)`;
+      sheen.style.transform = `translateX(${(x * 18).toFixed(2)}%)`;
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(frame) : 0;
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+    area.addEventListener('pointermove', (e) => {
+      const r = radio.getBoundingClientRect();
+      tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width * 0.9)));
+      ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height * 2.5)));
+      kick();
+    });
+    area.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
+  }
+
   (async function run() {
     while (true) {
-      setFlags(['code']);
-      led.dataset.on = 'false';
-      caption.textContent = 'Kódra vár…';
+      /* Locked */
+      stage.dataset.state = 'locked';
+      setFlags(['code', 'safe']);
+      caption.textContent = 'Zárolva – kódra vár';
+      progress.style.transform = 'scaleX(0)';
+      turn(knobLeft, 0);
+      turn(knobRight, 0);
       await swap('CODE');
-      await wait(1500);
+      await wait(2000);
 
-      const digits = ['-', '-', '-', '-'];
-      await swap(digits.join(''));
-      await wait(400);
+      /* Decoding */
+      stage.dataset.state = 'decoding';
+      setFlags(['code']);
+      caption.textContent = 'Kód visszafejtése…';
+      lcd.dataset.swapping = 'true';
+      await sleep(180);
+      lcd.innerHTML = '<span class="d">-</span><span class="d">-</span><span class="d">-</span><span class="d">-</span>';
+      lcd.dataset.swapping = 'false';
+      const spans = lcd.querySelectorAll('.d');
+      await wait(300);
 
-      caption.textContent = 'Kód beírása…';
       for (let i = 0; i < 4; i++) {
-        const target = 1 + Math.floor(Math.random() * 9);
-        for (let v = 0; v <= target; v++) {
-          digits[i] = String(v);
-          lcd.textContent = digits.join('');
-          await press(i, 70);
-          await wait(reduceMotion ? 40 : 75);
+        const until = performance.now() + (i === 0 ? 650 : 420);
+        while (performance.now() < until) {
+          for (let j = i; j < 4; j++) spans[j].textContent = randomDigit();
+          await wait(45);
         }
-        await wait(260);
+        spans[i].textContent = String(1 + Math.floor(Math.random() * 9));
+        spans[i].dataset.locked = 'true';
+        progress.style.transform = `scaleX(${(i + 1) / 4})`;
+        turn(knobRight, (i + 1) * 75);
+        press(i, 140);
+        await wait(120);
       }
 
-      await wait(400);
-      await press(5, 500);
+      /* Confirm + unlock */
+      await wait(500);
+      await press(5, 420);
+      flash.dataset.on = 'false';
+      void flash.offsetWidth; // restart the flash animation
+      flash.dataset.on = 'true';
+      stage.dataset.state = 'playing';
       setFlags(['fm', 'st']);
-      await swap('FM 98.6');
-      led.dataset.on = 'true';
+      turn(knobLeft, 140);
       caption.textContent = 'Kikódolva – szól a rádió';
-      await wait(3800);
+      await swap('FM 98.6');
+      await wait(5600);
     }
   })();
 });
