@@ -1027,7 +1027,6 @@ p { margin: 0; text-wrap: pretty; }
 html:not(.js) .dial-needle { transform: translateX(53%); } /* 98.6 MHz */
 
 /* Broadcast rings behind the contact section */
-.has-rings { overflow: clip; }
 
 .has-rings::before {
   content: "";
