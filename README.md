@@ -3,12 +3,13 @@
 Endes Miklós – autórádió kikódolás, Dunaharaszti. Statikus weboldal, build nélkül.
 
 ```
-index.html          főoldal
-impresszum.html     impresszum
-adatvedelem.html    adatvédelmi tájékoztató
-css/styles.css      közös stílus (mindhárom oldal)
-js/main.js          közös szkript (chat-linkek, térkép, animációk)
-fonts/              saját tárhelyről kiszolgált betűtípusok (Manrope, JetBrains Mono – OFL)
+index.html              főoldal                 → /
+impresszum/index.html   impresszum              → /impresszum/
+adatvedelem/index.html  adatvédelmi tájékoztató → /adatvedelem/
+sutik/index.html        süti-tájékoztató        → /sutik/
+css/styles.css          közös stílus
+js/main.js              közös szkript (chat-linkek, térkép, animációk)
+fonts/                  saját tárhelyről kiszolgált betűtípusok (Manrope, JetBrains Mono – OFL)
 ```
 
 - GitHub Pages-en fut, a telepítést a `.github/workflows/pages.yml` GitHub Actions workflow végzi minden `main`-re pusholt változásnál.

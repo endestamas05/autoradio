@@ -26,9 +26,9 @@ jobs:
       - name: Assemble site
         run: |
           mkdir _site
-          cp *.html _site/
-          cp -r css js fonts _site/
-          for f in sitemap.xml robots.txt; do [ -f "$f" ] && cp "$f" _site/ || true; done
+          cp index.html _site/
+          cp -r css js fonts impresszum adatvedelem sutik _site/
+          for f in sitemap.xml robots.txt 404.html; do [ -f "$f" ] && cp "$f" _site/ || true; done
 
       - uses: actions/configure-pages@v5
 
